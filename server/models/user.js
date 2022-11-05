@@ -1,0 +1,45 @@
+const mongoose=require('mongoose');
+
+const userSchema=mongoose.Schema({
+    name:{
+        require:true,
+        type:String,
+        trim:true,
+    },
+    email:{
+        require:true,
+        type:String,
+        trim:true,
+        validate:{
+            validator:(value)=>{
+                const reject = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;  
+               return value.match(reject);
+            },
+            message:'Please Enter a valid email Address',
+        }
+    },
+    password:{
+        required:true,
+        type:String,
+        validate:{
+            validator:(value)=>{
+               return value.length>6;
+            },
+            message:'Please Enter A long Password',
+        }
+    },
+    address:{
+        type:String,
+        default:'',
+    },
+    type:{
+        type:String,
+        default:'user',
+    },
+    //cart
+});
+
+
+// const User=mongoose.model('user',userSchema);
+// module.export=User;
+module.exports = User = mongoose.model('user', userSchema);

@@ -1,6 +1,7 @@
-import 'package:amazon_clone/common/custom_button.dart';
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_text_field.dart';
 import 'package:amazon_clone/contants/global_variables.dart';
+import 'package:amazon_clone/features/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 
@@ -21,12 +22,25 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController emailcontoller=TextEditingController();
   final TextEditingController passwordlcontoller=TextEditingController();
   final TextEditingController namecontroller=TextEditingController();
+
+  final AuthService authService=AuthService();
   @override
   void dispose() {
     emailcontoller.dispose();
     passwordlcontoller.dispose();
     namecontroller.dispose();
     super.dispose();
+  }
+  void singUpUser(){
+    authService.singUpUser(
+      context,
+      email: emailcontoller.text,
+      password: passwordlcontoller.text,
+      name: namecontroller.text,
+      );
+  }
+  void singInUser(){
+    authService.singInUser(context: context, email: emailcontoller.text, password: passwordlcontoller.text);
   }
   @override
   Widget build(BuildContext context) {
@@ -71,7 +85,14 @@ class _AuthScreenState extends State<AuthScreen> {
                        const SizedBox(height: 10),
                        CustomTextField(controller:passwordlcontoller,hintTitle: 'Enter Password',),
                        const SizedBox(height: 10),
-                       CustomButton(text: 'SingUp', onPressed: (){})
+                       CustomButton(
+                        text: 'SingUp',
+                        onPressed: (){
+                          if(singupFormKey.currentState!.validate()){
+                                 singUpUser();
+                          }     
+                        },
+                        )
                        
                     ],
                   )
@@ -89,7 +110,12 @@ class _AuthScreenState extends State<AuthScreen> {
                        const SizedBox(height: 10),
                        CustomTextField(controller:passwordlcontoller,hintTitle: 'Enter Password',),
                        const SizedBox(height: 10),
-                       CustomButton(text: 'SingIn', onPressed: (){})
+                       CustomButton(text: 'SingIn', onPressed: (){
+                          if(singupFormKey.currentState!.validate()){
+                              singInUser();
+                          }
+                      }
+                      )
                        
                     ],
                   )

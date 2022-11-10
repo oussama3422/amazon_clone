@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(double.infinity,50)
+        minimumSize: const Size(double.infinity,40)
       ),
       child: Text(text),
     );

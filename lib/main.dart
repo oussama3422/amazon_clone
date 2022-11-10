@@ -1,15 +1,38 @@
+import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/contants/global_variables.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/auth/auth_screen.dart';
+import 'package:amazon_clone/features/services/auth_service.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+    providers:[
+      ChangeNotifierProvider(create: (context)=>UserProvider()),
+    ],
+    child: const MyApp()
+    )
+    );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AuthService _authService=AuthService();
+  @override
+  void initState() { 
+    super.initState();
+    _authService.getUserData(context);
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,25 +49,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: Scaffold(
-        appBar:AppBar(
-          centerTitle: true,
-          title: const Text('Amazon Clone'),
-          ),
-          body:Column(
-            children:[ 
-            const Center(
-            child:  Text('Amazone Clone')
-            ),
-            Builder(
-              builder: (context) {
-                return ElevatedButton(onPressed: (){Navigator.pushNamed(context,AuthScreen.routeName );}, child: const Text('Click')
-                );
-              }
-            )
-            ]
-            ),
-          ),
+      home:Provider.of<UserProvider>(context).user.token.isNotEmpty?Provider.of<UserProvider>(context).user.type=='user'?const BottomBar():const AdminScreen():const AuthScreen()
     );
   }
 }

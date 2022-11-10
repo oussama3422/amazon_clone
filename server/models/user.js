@@ -13,7 +13,7 @@ const userSchema=mongoose.Schema({
         validate:{
             validator:(value)=>{
                 const reject = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;  
-               return value.match(reject);
+                return value.match(reject);
             },
             message:'Please Enter a valid email Address',
         }
@@ -21,12 +21,6 @@ const userSchema=mongoose.Schema({
     password:{
         required:true,
         type:String,
-        validate:{
-            validator:(value)=>{
-               return value.length>6;
-            },
-            message:'Please Enter A long Password',
-        }
     },
     address:{
         type:String,

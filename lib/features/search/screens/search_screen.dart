@@ -1,28 +1,50 @@
+import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
-import 'package:amazon_clone/features/home/widgets/top_categories.dart';
-import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:amazon_clone/features/search/services/search_services.dart';
+import 'package:amazon_clone/features/search/widgets/searched_product.dart';
+import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
-import '../../../contants/global_variables.dart';
-import '../widgets/craousel_image.dart';
-import '../widgets/seal_of_day.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-  static const String routeName='home-screen';
+import '../../../contants/global_variables.dart';
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key,required this.searchQuery});
+ static const String routeName='search-screen';
+ final String searchQuery;
+
+
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
+
+  SearchServices searchServices=SearchServices();
+   List<Product>? products;
 
 
+  @override
+  void initState() {
+    super.initState();
+    fetchSearchProduct();
+  }
+
+  void fetchSearchProduct()
+  async{
+    products=await searchServices.fetchSearchProducts(context: context, searchquery: widget.searchQuery); 
+  }
+  
   void navigatToSearch(String query){
    Navigator.pushNamed(context, SearchScreen.routeName,arguments: query);
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
+    return 
+    Scaffold(
+       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
           flexibleSpace: Container(
@@ -84,19 +106,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ),
         ),
-      body: SingleChildScrollView(
-        child: Column(
-          children:const [
-            AddressBox(),
-            SizedBox(height: 10),
-            TopCategories(),
-            SizedBox(height: 10),
-            CarouselImage(),
-            DealOfDay(),
-          ],
-        ),
-      ),
-
+       body:products==null
+         ?
+          const Loader()
+         :
+         Column(
+         children: [
+           Center(child: Text(widget.searchQuery),),
+           const AddressBox(),
+           const SizedBox(height: 10),
+           Expanded(
+            child: ListView.builder(
+              itemBuilder:(context, index) => SearchedProduct(
+                product: products![index],
+              )
+              ))
+         ],
+       )
     );
   }
 }

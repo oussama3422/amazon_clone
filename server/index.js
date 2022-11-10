@@ -6,6 +6,7 @@ const app=express();
 
 const authRouter=require('./routes/auth');
 const adminRoute=require('./routes/admin');
+const productRoute=require('./routes/product');
 //INIT
 const DB="mongodb+srv://ossama:ossama123@cluster0.7mvpy2c.mongodb.net/?retryWrites=true&w=majority";
 //middleware
@@ -13,6 +14,7 @@ const DB="mongodb+srv://ossama:ossama123@cluster0.7mvpy2c.mongodb.net/?retryWrit
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRoute);
+app.use(productRoute);
 //connections
 mongoose.connect(DB).then(()=>{
    console.log('connection successfully');

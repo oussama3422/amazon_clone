@@ -4,7 +4,7 @@ import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../contants/global_variables.dart';
 import '../widgets/craousel_image.dart';
-import '../widgets/seal_of_day.dart';
+import '../widgets/deal_of_day.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

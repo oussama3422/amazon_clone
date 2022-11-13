@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
+import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../contants/global_variables.dart';
 import '../../../models/product.dart';
@@ -20,8 +22,11 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+   Product? product;
+   ProductDetailsServices productDetailsServices=ProductDetailsServices();
 
 
+  
    navigatToSearch(String query){
     Navigator.pushNamed(context,SearchScreen.routeName,arguments:query );
   }
@@ -120,7 +125,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                        ).toList(),
                        options:CarouselOptions(
                          viewportFraction: 1,
-                         height:200,
+                         height:330,
                        ), 
                 ),
             Container(
@@ -149,13 +154,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-              child: CustomButton(text: 'Buy Now', onPressed: (){}),
+              child: CustomButton(
+                text: 'Buy Now',
+                onPressed: (){},
+                ),
             ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-              child: CustomButton(text: 'Add To Cart', onPressed: (){},color: Colors.black,),
-            )
+              child: CustomButton(
+                text: 'Add To Cart',
+                onPressed: (){},
+                color: const Color.fromARGB(255, 225, 104, 11),
+                ),
+            ), Container(
+              color:Colors.grey,
+              height:6,             
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child:Text(
+                'Rate The Product',
+                style:TextStyle(fontSize: 22,fontWeight: FontWeight.bold,fontFamily: 'FiraCode'),
+              ),
+              ),
+            RatingBar.builder(
+              minRating: 1,
+              initialRating: 0,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding:const EdgeInsets.symmetric(horizontal: 4) ,
+              itemBuilder: (context, index) =>const Icon(Icons.star,color: GlobalVariables.secondaryColor,),
+              onRatingUpdate: (rating){
+                    productDetailsServices.rateProduct(context: context, product: widget.product, rating: rating);
+              },
+              )
           ],
          ),
        ),

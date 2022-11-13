@@ -1,50 +1,29 @@
-import 'package:amazon_clone/common/widgets/loader.dart';
-import 'package:amazon_clone/features/home/widgets/address_box.dart';
-import 'package:amazon_clone/features/product_details/screens/prooduct_details_screen.dart';
-import 'package:amazon_clone/features/search/services/search_services.dart';
-import 'package:amazon_clone/features/search/widgets/searched_product.dart';
-import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/common/widgets/stars.dart';
+import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../../contants/global_variables.dart';
+import '../../../models/product.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key,required this.searchQuery});
- static const String routeName='search-screen';
- final String searchQuery;
-
+class ProductDetailScreen extends StatefulWidget {
+  final Product product;
+  const ProductDetailScreen({super.key,required this.product});
+  static const String routeName='/product-detail-screen';
 
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-
-  SearchServices searchServices=SearchServices();
-   List<Product>? products;
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
 
-  @override
-  void initState() {
-    super.initState();
-    fetchSearchProduct();
-  }
-
-  void fetchSearchProduct()
-  async{
-    products=await searchServices.fetchSearchProducts(context: context, searchquery: widget.searchQuery); 
-  }
-  
-  void navigatToSearch(String query){
-   Navigator.pushNamed(context, SearchScreen.routeName,arguments: query);
+   navigatToSearch(){
+    Navigator.pushNamed(context,SearchScreen.routeName);
   }
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
+    return Scaffold(
        appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
@@ -64,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderRadius:BorderRadius.circular(7),
                     elevation: 1,
                     child: TextFormField(
-                      onFieldSubmitted: navigatToSearch,
+                      onFieldSubmitted: navigatToSearch(),
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
                           onTap: (){},
@@ -107,29 +86,18 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           ),
         ),
-       body:
-       products==null
-         ?
-          const Loader()
-         :
-         Column(
-         children: [
-           const AddressBox(),
-           const SizedBox(height: 2),
-           Expanded(
-            child: ListView.builder(
-              itemCount: products!.length,
-              itemBuilder:(context, index) => GestureDetector(
-                onTap:(){
-                  Navigator.pushNamed(context, ProductDetailScreen.routeName);
-                },
-                child: SearchedProduct(
-                  product: products![index],
-                ),
-              )
-              ))
-         ],
-       )
+       body: SingleChildScrollView(
+         child: Column(
+          children: [
+            Row(
+              children:[
+                Text(widget.product.id!),
+                const Stars(rating: 4),
+              ]
+            )
+          ],
+         ),
+       ),
     );
   }
 }

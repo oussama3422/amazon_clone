@@ -19,10 +19,10 @@ try{
 });
 // create a get request to search products and get them
 //api/products/search/i
-productRouter.get('/api/products/search/:paramsName',auth,async(req,res)=>{
+productRouter.get('/api/products/search/:name',auth,async(req,res)=>{
 try{
     const product=await Product.find({
-        name:{$regex:req.params.paramsName,$options :"i"},
+        name:{$regex:req.params.name,$options :"i"},
     });
     res.json(product);
 }catch(err)

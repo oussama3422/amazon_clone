@@ -50,7 +50,7 @@ void fecthCategoryProduct()async{
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
           alignment:Alignment.topLeft ,
-          child:Text('Shooping for ${widget.category}',style: const TextStyle(fontSize: 20),)
+          child:Center(child: Text('Shooping for ${widget.category}',style: const TextStyle(color:Colors.blueGrey,fontSize: 20,fontFamily: 'FiraCode',fontWeight: FontWeight.bold),))
         ),
         SizedBox(
                     height:170,

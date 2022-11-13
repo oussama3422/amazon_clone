@@ -1,5 +1,9 @@
+import 'dart:ui';
+
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../contants/global_variables.dart';
@@ -18,8 +22,8 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
 
-   navigatToSearch(){
-    Navigator.pushNamed(context,SearchScreen.routeName);
+   navigatToSearch(String query){
+    Navigator.pushNamed(context,SearchScreen.routeName,arguments:query );
   }
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     borderRadius:BorderRadius.circular(7),
                     elevation: 1,
                     child: TextFormField(
-                      onFieldSubmitted: navigatToSearch(),
+                      onFieldSubmitted: navigatToSearch,
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
                           onTap: (){},
@@ -88,12 +92,69 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
        body: SingleChildScrollView(
          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children:[
-                Text(widget.product.id!),
-                const Stars(rating: 4),
-              ]
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children:[
+                  Text(widget.product.id!,style:const TextStyle(fontFamily: 'FiraCode'),),
+                  const Stars(rating: 4),
+                 
+                ]
+              ),
+            ),
+             Padding(
+              padding:const EdgeInsets.symmetric(
+                   horizontal: 20,
+                   vertical: 10
+              ),
+              child: Text(widget.product.name,style:const TextStyle(fontSize: 15,fontFamily: 'FiraCode'),),
+              ),
+              CarouselSlider(
+                 items:widget.product.images.map(
+                          (item) => Builder(
+                         builder:(context)=>Image.network(item,fit:BoxFit.cover,height:200),
+                        )
+                       ).toList(),
+                       options:CarouselOptions(
+                         viewportFraction: 1,
+                         height:200,
+                       ), 
+                ),
+            Container(
+              color:Colors.grey,
+              height:6,             
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'Deal Price : ',
+                style:const TextStyle(fontSize: 16,color:Colors.black,fontFamily: 'FiraCode',fontWeight:FontWeight.bold),
+                children: [
+                   TextSpan(
+                  text: '\$${widget.product.price}',
+                  style:const TextStyle(fontSize: 22,color:Color.fromARGB(255, 218, 20, 20),fontFamily: 'FiraCode',fontWeight:FontWeight.w500)
+                )
+                ],
+                )
+                ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(widget.product.description,style: const TextStyle(fontFamily: 'FiraCode'),),
+            ),
+             Container(
+              color:Colors.grey,
+              height:6,             
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              child: CustomButton(text: 'Buy Now', onPressed: (){}),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              child: CustomButton(text: 'Add To Cart', onPressed: (){},color: Colors.black,),
             )
           ],
          ),

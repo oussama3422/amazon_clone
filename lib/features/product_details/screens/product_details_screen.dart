@@ -4,17 +4,19 @@ import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 import '../../../contants/global_variables.dart';
 import '../../../models/product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
+  static const String routeName='/product-detail-screen';
   final Product product;
   const ProductDetailScreen({super.key,required this.product});
-  static const String routeName='/product-detail-screen';
 
 
   @override
@@ -22,14 +24,31 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-   Product? product;
    ProductDetailsServices productDetailsServices=ProductDetailsServices();
-
-
+    double myRating=0;
+    double avrgeRating=0;
+     @override
+     void initState() { 
+       super.initState();
+       double totalRating=0;
+       for(int i=0;i<widget.product.rating!.length;i++)
+       {
+        totalRating+=widget.product.rating![i].rating;
+        if(widget.product.rating![i].userId==Provider.of<UserProvider>(context,listen: false).user.id)
+        {
+           myRating=widget.product.rating![i].rating;
+        }
+       }
+       if(totalRating!=0)
+       {
+        avrgeRating=totalRating/widget.product.rating!.length;
+       }
+       
+     }
   
    navigatToSearch(String query){
     Navigator.pushNamed(context,SearchScreen.routeName,arguments:query );
-  }
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,10 +123,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:[
-                  Text(widget.product.id!,style:const TextStyle(fontFamily: 'FiraCode'),),
-                  const Stars(rating: 4),
-                 
-                ]
+                   Text(widget.product.id!,style:const TextStyle(fontFamily: 'FiraCode'),),
+                   Stars(rating: avrgeRating),
+                  ]
               ),
             ),
              Padding(
@@ -164,7 +182,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
               child: CustomButton(
                 text: 'Add To Cart',
-                onPressed: (){},
+                onPressed: (){
+                  
+                },
                 color: const Color.fromARGB(255, 225, 104, 11),
                 ),
             ), Container(
@@ -187,7 +207,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               itemPadding:const EdgeInsets.symmetric(horizontal: 4) ,
               itemBuilder: (context, index) =>const Icon(Icons.star,color: GlobalVariables.secondaryColor,),
               onRatingUpdate: (rating){
-                    productDetailsServices.rateProduct(context: context, product: widget.product, rating: rating);
+                    productDetailsServices.rateProduct(
+                    context: context, product: widget.product, rating: rating);
               },
               )
           ],

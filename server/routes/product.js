@@ -35,8 +35,8 @@ try{
 //create a post request route to rate the product.
 productRouter.post("/api/rate-product",auth,async(req,res)=>{
 try{
-    const {ProductId,rating}=req.body;
-    let product=await Product.findById(ProductId)
+    const {id,rating}=req.body;
+    let product=await Product.findById(id)
     for(let i=0;i<product.ratings.length;i++)
     {
          if(product.ratings[i].userId == req.user){

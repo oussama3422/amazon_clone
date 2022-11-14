@@ -15,51 +15,48 @@ class SearchedProduct extends StatelessWidget {
         Container(
           // left:10 and rigt:10 
           margin:const EdgeInsets.symmetric(horizontal: 10),
-          child:SingleChildScrollView(
-            child: Row(
-            children: [
-                 Image.network(product.images[0],height: 200,width: 100,),
-                 Column(
-                  children: [
-                    Container(
-                      width:235,
-                      padding:const EdgeInsets.symmetric(horizontal: 10),
-                      child:Text(
-                        product.name,
-                        style: const TextStyle(fontSize: 16),
-                       maxLines: 2,
-                       overflow: TextOverflow.ellipsis,
-                      ),
+          child:Row(
+          children: [
+               Image.network(product.images[0],height: 200,width: 200,),
+               Column(
+                children: [
+                  Container(
+                    width:235,
+                    padding:const EdgeInsets.symmetric(horizontal: 10),
+                    child:Text(
+                      product.name,
+                      style: const TextStyle(fontSize: 16),
+                     maxLines: 2,
                     ),
-                    Container(
-                      width:235,
-                      padding:const EdgeInsets.only(left: 10,top:10),
-                      child: Stars(rating: 4),
-                    ),
-                      Container(
-                      width:235,
-                      padding:const EdgeInsets.symmetric(horizontal: 10),
-                      child:Text(
-                        '\$${product.price}',
-                        style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-                       maxLines: 2,
-                      ),
-                    ),
-                    Container(
-                      width:235,
-                      padding:const EdgeInsets.only(left: 10),
-                      child:const Text(
-                        'Eligible for shiping',
-                        style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-                       maxLines: 2,
-                      ),
-                    ),
-                  
-                  ],
-                 )
-            ],
                   ),
-          )
+                  Container(
+                    width:235,
+                    padding:const EdgeInsets.only(left: 10,top:10),
+                    child:const Stars(rating: 4),
+                  ),
+                    Container(
+                    width:235,
+                    padding:const EdgeInsets.symmetric(horizontal: 10),
+                    child:Text(
+                      '\$${product.price}',
+                      style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                     maxLines: 2,
+                    ),
+                  ),
+                  Container(
+                    width:235,
+                    padding:const EdgeInsets.only(left: 10),
+                    child:const Text(
+                      'Eligible for shiping',
+                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                     maxLines: 2,
+                    ),
+                  ),
+                
+                ],
+               )
+          ],
+                )
         ),
       ],
     );

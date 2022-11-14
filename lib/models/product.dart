@@ -41,11 +41,11 @@ class Product {
     return Product(
       name: map['name'],
       description: map['description'],
-      quantity: map['quantity']?.toDouble(),
+      quantity: map['quantity']?.toDouble()?? 0.0, 
       images: List<String>.from(map['images']),
       category: map['category'],
-      price: map['price']?.toDouble(),
-      id: map['id'],
+      price: map['price']?.toDouble() ?? 0.0,
+      id: map['_id'],
       rating: map['ratings'] != null ? List<Rating>.from(map['ratings']?.map((x) => Rating.fromMap(x))) : null,
     );
   }

@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void fetchSearchProduct()
   async{
     products=await searchServices.fetchSearchProducts(context: context, searchquery: widget.searchQuery); 
+    setState(() {});
   }
   
   void navigatToSearch(String query){

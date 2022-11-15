@@ -58,6 +58,33 @@ try{
     res.status(500).json({error:error.message});
 }
 })
+// make get request for /api/deal-of-day
+
+productRouter.get('/api/deal-of-day',auth,async(req,res)=>{
+   
+  try{
+   let products=await Product.find({});
+    products=products.sort((a,b)=>{
+    let aSum=0;
+    let bSum=0;
+
+    for(let i=0;i<a.rating.length;i++)
+    {
+        aSum+=a.rating[i].rating;
+    }
+    for(let i=0;i<b.rating.length;i++)
+    {
+        bSum+=b.rating[i].rating;
+    }
+  return aSum<bSum ? 1:-1;
+   })
+   res.json(products[0]);
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
+   
+
+})
 
 
 module.exports=productRouter;

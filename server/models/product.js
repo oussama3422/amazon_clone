@@ -32,4 +32,5 @@ const productSchema=mongoose.Schema({
     ratings:[ratingSchema],
 })
 
-module.exports={Porduct,productSchema}=mongoose.model('Product',productSchema);
+const Product=mongoose.model('Product',productSchema);
+module.exports={Product,productSchema};

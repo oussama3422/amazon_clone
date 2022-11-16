@@ -26,6 +26,7 @@ class AuthService{
         address: '',
         type: '',
         token: '',
+        cart:[],
         );
         // var url=Uri.http('$uri/api/signup');
         // print(url);

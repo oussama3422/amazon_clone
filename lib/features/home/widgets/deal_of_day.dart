@@ -44,8 +44,9 @@ class _DealOfDayState extends State<DealOfDay> {
         ),
           Image.network(
             product!.images[0],
-            fit: BoxFit.fitWidth,
-            height:233),
+            fit: BoxFit.cover,
+            height:233
+            ),
         Container(
           padding: const EdgeInsets.only(left:15),
           alignment:Alignment.topLeft ,
@@ -61,6 +62,8 @@ class _DealOfDayState extends State<DealOfDay> {
             children: product!.images.map((e) => Image.network(
               e,
               fit:BoxFit.cover,
+              height: 200,
+              width: 400,
             )).toList()
             ),
         ),

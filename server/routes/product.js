@@ -1,7 +1,7 @@
 const { json } = require('express');
 const express=require('express');
 const auth=require('../middlewares/auth');
-const Product=require('../models/product');
+const {Product}=require('../models/product');
 const productRouter=express.Router();
 
 // /api/product?category=Essentials
@@ -70,7 +70,7 @@ productRouter.get('/api/deal-of-day',auth,async(req,res)=>{
 
     for(let i=0;i<a.ratings.length;i++)
     {
-        aSum+=a.rating[i].rating;
+        aSum+=a.ratings[i].rating;
     }
     for(let i=0;i<b.ratings.length;i++)
     {

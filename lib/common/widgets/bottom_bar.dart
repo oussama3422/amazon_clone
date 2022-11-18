@@ -1,6 +1,6 @@
 import 'package:amazon_clone/contants/global_variables.dart';
 import 'package:amazon_clone/features/account/screens/account_scree.dart';
-import 'package:amazon_clone/features/card/screens/card_screens.dart';
+import 'package:amazon_clone/features/cart/screens/cart_screens.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:badges/badges.dart';
@@ -23,7 +23,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages=[
      const HomeScreen(),
      const AcountScreen(),
-     const CardScreen(),
+      const CartScreen(),
   ];
   updatePage(int page){
     setState(() {

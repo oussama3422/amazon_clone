@@ -1,3 +1,4 @@
+import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/auth/auth_screen.dart';
 import 'package:amazon_clone/features/home/screens/deal_category_screen.dart';
@@ -24,6 +25,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
         case ProductDetailScreen.routeName:
             var product=routeSettings.arguments as Product;
             return MaterialPageRoute(builder: (_)=> ProductDetailScreen(product:product),settings: routeSettings);
+        case AddressScreen.routeName:
+            var totalAmount=routeSettings.arguments as String;
+
+            return MaterialPageRoute(builder: (_)=> AddressScreen(totalAmount: totalAmount,),settings: routeSettings);
         default:
           return MaterialPageRoute(builder: (_)=>const Scaffold(
             body: Center(

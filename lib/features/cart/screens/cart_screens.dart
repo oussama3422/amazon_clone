@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
-import 'package:amazon_clone/features/card/widgets/card_product.dart';
-import 'package:amazon_clone/features/card/widgets/cart_sub_total.dart';
+import 'package:amazon_clone/features/address/screens/address_screen.dart';
+import 'package:amazon_clone/features/cart/widgets/card_product.dart';
+import 'package:amazon_clone/features/cart/widgets/cart_sub_total.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,24 +10,30 @@ import 'package:provider/provider.dart';
 import '../../../contants/global_variables.dart';
 import '../../home/widgets/address_box.dart';
 
-class CardScreen extends StatefulWidget {
-  const CardScreen({super.key});
+class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
 
   @override
-  State<CardScreen> createState() => _CardScreenState();
+  State<CartScreen> createState() => _CartScreenState();
 }
 
 
 
-class _CardScreenState extends State<CardScreen> {
+class _CartScreenState extends State<CartScreen> {
    
 
   void navigatToSearch(String query){
   Navigator.pushNamed(context, SearchScreen.routeName,arguments: query);
  }
+ // navigate To Addresss
+  void navigateToAddess(int sum){
+  Navigator.pushNamed(context, AddressScreen.routeName,arguments: sum);
+ }
   @override
   Widget build(BuildContext context) {
     final user=context.watch<UserProvider>().user;
+    int sum=0;
+    user.cart.map((e) => sum+=e['quantity'] * e['product']['price'] as int).toList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -100,7 +107,7 @@ class _CardScreenState extends State<CardScreen> {
               child: CustomButton(
                 color: const Color.fromARGB(255, 200, 168, 25),
                 text: 'Procced To Buy (${user.cart.length} items)',
-                onPressed: (){}
+                onPressed:()=>navigateToAddess(sum),
                 ),
             ),
             const SizedBox(height: 4),

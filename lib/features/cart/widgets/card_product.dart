@@ -1,4 +1,4 @@
-import 'package:amazon_clone/features/card/services/card_services.dart';
+import 'package:amazon_clone/features/cart/services/card_services.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/providers/user_provider.dart';

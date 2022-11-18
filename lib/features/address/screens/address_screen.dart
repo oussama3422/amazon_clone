@@ -1,4 +1,5 @@
 import 'package:amazon_clone/contants/global_variables.dart';
+import 'package:amazon_clone/contants/utils.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
@@ -9,7 +10,7 @@ import '../../../common/widgets/custom_text_field.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key,required this.totalAmount});
-  final String totalAmount;
+  final int totalAmount;
   static const String routeName='/address-screen';
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -37,14 +38,37 @@ class _AddressScreenState extends State<AddressScreen> {
 
 
   }
+   String addressTobeUse="";
+  void payPressed(String adressFromProvider)
+  {
+    addressTobeUse="";
+    bool isForm=flatBuilthingcontroller.text.isNotEmpty 
+    || areacontoller.text.isNotEmpty 
+    || pincodeController.text.isNotEmpty
+    || townContoller.text.isNotEmpty;
+    if(isForm)
+    {
+      if(addressFormKey.currentState!.validate())
+      {
+        addressTobeUse='${flatBuilthingcontroller.text},${areacontoller.text},${townContoller.text} - ${pincodeController.text}';
+      }else{
+        throw Exception('Please Enter All The Values');
+      } 
+    }else if(adressFromProvider.isNotEmpty){
+        addressTobeUse=adressFromProvider;
+    }else{
+      showSnackBar(context, 'ERROR');
+    }
+    print(addressTobeUse);
+  }
   List<PaymentItem> paymentItems=[];
-
+ 
   @override
   void initState() {
     super.initState();
     paymentItems.add(
       PaymentItem(
-        amount: widget.totalAmount,
+        amount: widget.totalAmount.toString(),
         label: 'Total Amount',
         status: PaymentItemStatus.final_price
         )
@@ -112,6 +136,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           ),
                           const SizedBox(height: 20),
               GooglePayButton(
+                onPressed: () =>payPressed(address),
                 width: double.infinity,
                 type:GooglePayButtonType.buy,
                 paymentConfigurationAsset: 'gpay.json',

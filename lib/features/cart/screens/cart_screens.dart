@@ -27,7 +27,7 @@ class _CartScreenState extends State<CartScreen> {
  }
  // navigate To Addresss
   void navigateToAddess(int sum){
-  Navigator.pushNamed(context, AddressScreen.routeName,arguments: sum);
+     Navigator.pushNamed(context, AddressScreen.routeName,arguments: sum);
  }
   @override
   Widget build(BuildContext context) {

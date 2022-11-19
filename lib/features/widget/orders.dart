@@ -1,16 +1,43 @@
 
 
+import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/contants/global_variables.dart';
+import 'package:amazon_clone/features/account/services/account_services.dart';
+import 'package:amazon_clone/features/order_details/screens/order_details.dart';
 import 'package:amazon_clone/features/widget/single_product.dart';
+import 'package:amazon_clone/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Orders extends StatelessWidget {
+class Orders extends StatefulWidget {
   const Orders({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
+  State<Orders> createState() => _OrdersState();
+}
+
+class _OrdersState extends State<Orders> {
+   List<Order>? orders;
+
+
+   AccountServices accountServices=AccountServices();
+  @override
+  void initState() {
+    fetchOrders();
+    super.initState();
+  }
+
+  void fetchOrders()async{
+    orders=await accountServices.fetchAllOrders(context: context);
+    setState(() { });
+  }
+  @override
+  Widget build(BuildContext context) {   
+    return orders==null
+    ?
+    const Loader()
+    :
+    Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,8 +58,13 @@ class Orders extends StatelessWidget {
           padding: const EdgeInsets.only(top:20,left:10,right:0),
           child: ListView.builder(
             scrollDirection:Axis.horizontal ,
-            itemCount:GlobalVariables.carouselImages.length,
-            itemBuilder: (context, index) => SingleProduct(img:GlobalVariables.carouselImages[index] ),
+            itemCount:orders!.length,
+            itemBuilder: (context, index) => InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, OrderDetails.routeName,arguments: orders![index]);
+              },
+              child: SingleProduct(img:orders![index].products[0].images[0])
+              ),
             ),
         )
       ],

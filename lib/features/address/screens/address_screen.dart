@@ -1,5 +1,6 @@
 import 'package:amazon_clone/contants/global_variables.dart';
 import 'package:amazon_clone/contants/utils.dart';
+import 'package:amazon_clone/features/address/services/address_services.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
@@ -24,6 +25,7 @@ class _AddressScreenState extends State<AddressScreen> {
   final TextEditingController townContoller=TextEditingController();
   
   final addressFormKey=GlobalKey<FormState>();
+  AdressServices adressServices=AdressServices();
 
   @override
   void dispose() {
@@ -35,7 +37,10 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
  void googlePayResult(res){
-
+ if(Provider.of<UserProvider>(context,listen: false).user.address.isEmpty){
+  adressServices.saveUserAdress(context: context, address: addressTobeUse);
+ }
+ adressServices.placeOrder(context: context, address: addressTobeUse, totalSum: widget.totalAmount.toDouble());
 
   }
    String addressTobeUse="";

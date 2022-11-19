@@ -3,7 +3,7 @@ import 'package:amazon_clone/features/admin/screens/posts_screen.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import '../../../contants/global_variables.dart';
-import '../../account/screens/account_scree.dart';
+import '../../account/screens/account_screen.dart';
 import '../../home/screens/home_screen.dart';
 
 class AdminScreen extends StatefulWidget {

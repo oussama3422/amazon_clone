@@ -1,5 +1,6 @@
 const express=require("express");
 const admin=require('../middlewares/admin');
+const Order=require('../models/order');
 const {Product}=require('../models/product');
 const adminRoute=express.Router();
 
@@ -46,6 +47,46 @@ adminRoute.post('/admin/delete-product',admin,async(req,res)=>{
         console.log('deleted Successfulyl');
     }catch(err){
         res.status(500).json({error:err.message});
+    }
+})
+// fetch Orders
+adminRoute.get('/admin/get-orders',admin,async(req,res)=>{
+    try{
+        const order=await Order.find({});
+        res.json(order);
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+})
+// change Status
+adminRoute.get('/admin/change-order-status',admin,async(req,res)=>{
+    try{
+        const {id,status}=req.body;
+        let order=await Order.findById(id)
+        order.status=status;
+        order=order.save();
+        res.json(order);
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+});
+
+// get analytics
+adminRoute.get('/admin/analytics',admin,async(req,res)=>{
+
+    try{
+        const order=await Order.find({});
+        let totalEearning=0;
+
+        for(let i=0;i<order.length;i++)
+        {
+            for(let j=0;j<order[i].products.length;j++)
+            {
+                totalEearning+=orders[i].products[j];
+            }
+        }
+    }catch(error){
+        res.status(500).json({error:error.message});
     }
 })
 

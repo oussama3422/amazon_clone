@@ -59,8 +59,11 @@ class _PostsScreenState extends State<PostsScreen> {
           children: [
             SizedBox(
               height: 140,
-              child: SingleProduct(
-                img: productData.images[0]
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleProduct(
+                  img: productData.images[0]
+                ),
               ),
               ),
               Row(
@@ -70,12 +73,13 @@ class _PostsScreenState extends State<PostsScreen> {
                         child: Text(
                           productData.name,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2
+                          maxLines: 2,
+                          style: TextStyle(fontFamily: 'FiraCode'),
                           )
                           ),
                           IconButton(
                             onPressed:()=> deleteProdutById(productData,index),
-                            icon: const Icon(Icons.delete_outline)
+                            icon: const Icon(Icons.delete_outline,color:Colors.red)
                             )
               ],
               )

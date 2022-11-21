@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:amazon_clone/contants/error_handling.dart';
 import 'package:amazon_clone/contants/utils.dart';
+import 'package:amazon_clone/features/auth/auth_screen.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../contants/global_variables.dart';
 class AccountServices{
@@ -46,5 +48,16 @@ class AccountServices{
   }
 
   return orderList;
+  }
+
+  void logout(BuildContext context)async{
+    try{
+      SharedPreferences sharedPredernces =await SharedPreferences.getInstance();
+      sharedPredernces.setString('x-token-auth', '');
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushNamedAndRemoveUntil(AuthScreen.routeName, (route) => false);
+    }catch(error){
+      showSnackBar(context, error.toString());
+    }
   }
 }

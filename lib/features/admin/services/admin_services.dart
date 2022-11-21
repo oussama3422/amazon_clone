@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:amazon_clone/contants/error_handling.dart';
 import 'package:amazon_clone/contants/global_variables.dart';
 import 'package:amazon_clone/contants/utils.dart';
+import 'package:amazon_clone/features/admin/module/sales.dart';
 import 'package:amazon_clone/features/widget/orders.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/models/product.dart';
@@ -90,8 +91,7 @@ class AdminServices{
     }
     return productList;
  }
- // delete Products
-
+ // delete Products 
  deleteProduct({required BuildContext context,required Product product,required VoidCallback onSucess})async{
   var userProduct=Provider.of<UserProvider>(context,listen: false);
   try{
@@ -140,6 +140,7 @@ class AdminServices{
     }
     return orderList;
  }
+ // Change Order Status
  changeOrderStatus({required BuildContext context,required int status,required Order order,required VoidCallback onSucess})async{
   var userProduct=Provider.of<UserProvider>(context,listen: false);
   try{
@@ -159,5 +160,42 @@ class AdminServices{
   }catch(err){
     showSnackBar(context, err.toString());
   }
+ }
+ 
+ 
+ Future<Map<String,dynamic>> getEarning(BuildContext context)async{
+     final userProduct=Provider.of<UserProvider>(context,listen: false);
+     List<Sales> sales=[];
+     int totalEarning=0;
+    try{
+     http.Response res=await http.get(
+      Uri.parse('$uri/admin/analtyics'),
+      headers: {
+        'Content-Type':'application/json; charset=UTF-8',
+        'x-token-auth':userProduct.user.token,
+      },
+     );
+     httpErrorHandle(
+      response: res,
+      context: context,
+      onSuccess: (){
+       var response=jsonDecode(res.body);
+       totalEarning=response['totalEearning'];
+       sales=[
+        Sales(label: 'Mobiles', earning: response['mobileEarnings']),
+        Sales(label: 'Essentials', earning: response['essentialsEarnings']),
+        Sales(label: 'Appliances', earning: response['appliancesEarnings']),
+        Sales(label: 'Books', earning: response['booksEarnings']),
+        Sales(label: 'Fashion', earning: response['fashionEarnings']),
+        ];
+      }
+      );
+    }catch(err){
+      showSnackBar(context, err.toString());
+    }
+    return {
+      'sales':sales,
+      'totalEarnings':totalEarning
+    };
  }
 }

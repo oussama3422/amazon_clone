@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String uri='http://172.29.48.1:3000';
+String uri='https://lit-wildwood-33249.herokuapp.com';
 class GlobalVariables {
   // COLORS
   static const appBarGradient = LinearGradient(

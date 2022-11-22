@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:amazon_clone/contants/error_handling.dart';
 import 'package:amazon_clone/contants/utils.dart';
-import 'package:amazon_clone/features/auth/auth_screen.dart';
+import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';

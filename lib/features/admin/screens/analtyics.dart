@@ -1,6 +1,5 @@
 import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
-import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../module/sales.dart';

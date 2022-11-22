@@ -22,7 +22,7 @@ mongoose.connect(DB).then(()=>{
    console.log('connection successfully');
 }).catch((e)=>{console.log('failure'+{e})});
 // initialisation
-const PORT=3000;
+const PORT=process.env.PORT || 3000;
 app.listen(PORT,'0.0.0.0',()=>{
    console.log('server has been running at port '+PORT+' ...');
 });

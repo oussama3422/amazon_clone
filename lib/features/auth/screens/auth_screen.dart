@@ -1,7 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_text_field.dart';
 import 'package:amazon_clone/contants/global_variables.dart';
-import 'package:amazon_clone/features/services/auth_service.dart';
+import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 
@@ -31,7 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
     namecontroller.dispose();
     super.dispose();
   }
-  void singUpUser(){
+  void singupUser()async{
     authService.singUpUser(
       context,
       email: emailcontoller.text,
@@ -89,7 +89,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         text: 'SingUp',
                         onPressed: (){
                           if(singupFormKey.currentState!.validate()){
-                                 singUpUser();
+                                 singupUser();
                           }     
                         },
                         )

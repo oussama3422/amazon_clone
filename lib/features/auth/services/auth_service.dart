@@ -31,10 +31,10 @@ class AuthService{
         // var url=Uri.http('$uri/api/signup');
         // print(url);
         final res=await http.post(
-          Uri.parse('$uri/api/singin'),
+          Uri.parse('$uri/api/singup'),
           body: user.toJson(),
           headers: <String,String>{
-            'Content-Type':'application/json;charset=UTF-8',
+            'Content-Type':'application/json;  charset=UTF-8',
           },
           );
           // print(res.statusCode);
@@ -63,7 +63,7 @@ class AuthService{
             'password':password,
           }),
           headers: <String,String>{
-            'Content-Type':'application/json;charset=UTF-8',
+            'Content-Type':'application/json; charset=UTF-8',
             // "Access-Control-Allow-Origin": "*",
           },
           );

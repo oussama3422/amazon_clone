@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String uri='https://lit-wildwood-33249.herokuapp.com';
+String uri='https://amazon-app-22.herokuapp.com/';
 class GlobalVariables {
   // COLORS
   static const appBarGradient = LinearGradient(

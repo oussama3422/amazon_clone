@@ -23,6 +23,6 @@ mongoose.connect(DB).then(()=>{
 }).catch((e)=>{console.log('failure'+{e})});
 // initialisation
 const PORT=process.env.PORT || 3000;
-app.listen(PORT,'0.0.0.0',()=>{
+app.listen(PORT,()=>{
    console.log('server has been running at port '+PORT+' ...');
 });
